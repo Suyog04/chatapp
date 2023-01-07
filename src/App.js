@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import './App.css';
 
 // import firebase
-import firebase from "firebase/app"
+import firebase from "firebase/compat/app"
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/analytics'
 
 
 // Firebase authentication hooks
@@ -28,7 +29,7 @@ const analytics = firebase.analytics();
 function App() 
 {
 
-  cosnt [user] = useAuthState(auth)
+  const [user] = useAuthState(auth)
   return (
     <div className="App">
       <header className="App-header">
@@ -62,29 +63,60 @@ const SignOut = () =>
   )
 }
 
-const chatRoom = () =>
+const ChatRoom = () =>
 {
-  const messageRef = firestore.collection('messages')
-  const query = messageRef.orderby('createdAt').limit(25);
+  const dummy = useRef();
+  const messagesRef = firestore.collection('messages')
+  const query = messagesRef.orderby('createdAt').limit(25);
 
   const [messages] = useCollectionData(query, {idField: 'id'});
+  const [formValue, setFormValue] = useState('');
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    const { uid, photoURL } = auth.currentUser;
+
+    await messagesRef.add({
+      text: formValue,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uid,
+      photoURL
+    })
+
+    setFormValue('');
+    dummy.current.scrollIntoView({behaviour: 'smooth'})
+  }
 
   return(
     <>
-      <div>
+      <main>
         {messages && messages.map(msg => <ChatMessage key = {msg.id} message = {msg} /> )}
-      </div>
+
+        <span ref = {dummy}></span>
+      </main>
+      <form onSubmit = { sendMessage}>
+        <input value = {formValue} onChange = {(e) => setFormValue(e.target.value)} placeholder = "say something nice" />
+
+        <button type = "submit" disabled = {!formValue}>Send</button>
+      </form>
     </>
   )
 }
 
 const ChatMessage = (props) =>
 {
-  const { text, uid } = props.message
+  const { text, uid, photoURL } = props.message
+  const messageClass = uid === auth.currentUset.uid? 'sent': 'recieved'
+
   return(
-    <p>
-      {text}
-    </p>
+    <>
+      <div className = { `message ${messageClass}` }>
+        <p>
+          {text}
+        </p>
+      </div>
+    </>
   )
 }
 
