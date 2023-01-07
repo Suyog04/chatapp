@@ -25,14 +25,68 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const analytics = firebase.analytics();
 
-function App() {
+function App() 
+{
+
+  cosnt [user] = useAuthState(auth)
   return (
     <div className="App">
       <header className="App-header">
-        section
       </header>
+      <section className="App-main">
+        {user ? <ChatRoom />: <SignIn />} 
+      </section>
     </div>
   );
 }
+
+// Sign in component
+const SignIn = () =>
+{
+  const signInWithGoogle = () =>
+  {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    auth.signInWithPopup(provider)
+  }
+
+  return(
+    <button onClick={ signInWithGoogle }>You have to sign in with google.</button>
+  )
+}
+
+// Sign out component
+const SignOut = () =>
+{
+  return auth.currentUser &&(
+    <button onClick={ auth.signOut()}>Sign Out</button>
+  )
+}
+
+const chatRoom = () =>
+{
+  const messageRef = firestore.collection('messages')
+  const query = messageRef.orderby('createdAt').limit(25);
+
+  const [messages] = useCollectionData(query, {idField: 'id'});
+
+  return(
+    <>
+      <div>
+        {messages && messages.map(msg => <ChatMessage key = {msg.id} message = {msg} /> )}
+      </div>
+    </>
+  )
+}
+
+const ChatMessage = (props) =>
+{
+  const { text, uid } = props.message
+  return(
+    <p>
+      {text}
+    </p>
+  )
+}
+
 
 export default App;
