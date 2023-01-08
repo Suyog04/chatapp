@@ -1,5 +1,5 @@
 body {
-  background-color: #282c34;
+  background-color: grey;
 }
 
 .App {
@@ -9,10 +9,10 @@ body {
 }
 
 .App header {
-  background-color: #181717;
+  background-color: #232f51;
   height: 10vh;
   min-height: 50px;
-  color: white;
+  color: rgb(199, 185, 185);
   position: fixed;
   width: 100%;
   max-width: 728px;
@@ -51,14 +51,14 @@ main::-webkit-scrollbar-track {
 }
 
 main::-webkit-scrollbar-thumb {
-  background: #6649b8;
+  background: #a39bba;
 }
 
 form {
   height: 10vh;
   position: fixed;
   bottom: 0;
-  background-color: rgb(24, 23, 23);
+  background-color: rgb(56, 128, 86);
   width: 100%;
   max-width: 728px;
   display: flex;
@@ -67,7 +67,7 @@ form {
 
 form button {
   width: 20%;
-  background-color: rgb(56, 56, 143);
+  background-color: rgb(52, 52, 83);
 }
 
 
@@ -75,7 +75,7 @@ input {
   line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
-  background: rgb(58, 58, 58);
+  background: rgb(52, 43, 43);
   color: white;
   outline: none;
   border: none;
@@ -138,7 +138,7 @@ p {
 
 .sent p {
   color: white;
-  background: #0b93f6;
+  background: #66737c;
   align-self: flex-end;
 }
 .received p {
