@@ -3,9 +3,9 @@ import './App.css';
 
 // import firebase
 import firebase from "firebase/compat/app"
-import 'firebase/firestore'
-import 'firebase/auth'
-import 'firebase/analytics'
+import 'firebase/compat/firestore'
+import 'firebase/compat/auth'
+import 'firebase/compat/analytics'
 
 
 // Firebase authentication hooks
@@ -34,7 +34,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>⚛️🔥💬</h1>
+        <h1>Letsconnect</h1>
         <SignOut />
       </header>
 
@@ -108,7 +108,7 @@ function ChatRoom() {
 
       <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
 
-      <button type="submit" disabled={!formValue}>🕊️</button>
+      <button type="submit" disabled={!formValue}>Send</button>
 
     </form>
   </>)
